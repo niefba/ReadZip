@@ -1,0 +1,51 @@
+# ReadZip Cordova Plugin for iOS #
+by Fabien Tillon (@niefba), Rupil
+
+This plugin allows you to read a zip text
+
+## Adding the Plugin to your project ##
+
+To install the plugin, copy ReadZipPlugin.js to your project's www folder and include a reference to it in your html files.
+
+<script type="text/javascript" src="ReadZipPlugin.js"></script>
+
+Add SSZipArchive directory, NSData+Base64.h, NSData+Base64.m, ReadZipPlugin.h and ReadZipPlugin.m to the Plugins directory of your Cordova project.
+
+Add the `libz` library to your target
+
+In the Cordova.plist section, you need to add the plugin with the key/pair value of:
+
+ReadZipPlugin ReadZipPlugin
+
+## Using the plugin ##
+
+        <script type="text/javascript">
+            function testReadZip()
+            {
+                /**
+                 * Chaîne de caractère correspondant au fichier readzip.txt contenant 'hello world!' zippé en readzip.zip et protégé par mot de passe puis encodé en base64. Les retours à la ligne ont été supprimés.
+                 * Commandes utilisées :
+                 * > zip -e readzip.zip readzip.txt
+                 * > openssl enc -base64 -in readzip.zip -out readzip.b64
+                 */
+                var content = 'UEsDBAoACQAAACFb00Cpptr+GgAAAA4AAAALABwAcmVhZHppcC50eHRVVAkAA25F4E9uReBPdXgLAAEE9QEAAAQAAAAAZ36cYGAcQb4/S4ZJ4Bacf5wZ81B5QdCqGm5QSwcIqaba/hoAAAAOAAAAUEsBAh4DCgAJAAAAIVvTQKmm2v4aAAAADgAAAAsAGAAAAAAAAQAAAKSBAAAAAHJlYWR6aXAudHh0VVQFAANuReBPdXgLAAEE9QEAAAQAAAAAUEsFBgAAAAABAAEAUQAAAG8AAAAAAA==';
+
+                var password = 'foobar';
+                var filename = 'readzip.txt';
+                var base64 = true;
+                window.plugins.readZip.extractZip(content,password,filename,base64,success,fail);
+            }
+            
+            function success(result) 
+            {
+                alert('Result : '+result);
+            }
+            
+            function fail(error) 
+            { 
+                alert(error);
+            }
+      </script>
+    
+      <input type="button" value="Test Read Zip" onClick="testReadZip();"/>
+
